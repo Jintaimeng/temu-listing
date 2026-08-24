@@ -1,0 +1,4 @@
+interface:
+  display_name: "Temu Listing Automation"
+  short_description: "Fill Temu product forms and upload local images from listing.yaml"
+  default_prompt: "Use listing.yaml to prepare a new product in agentseller.temu.com and stop for confirmation before submission."
