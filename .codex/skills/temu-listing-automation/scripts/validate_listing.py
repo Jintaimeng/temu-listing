@@ -9,7 +9,7 @@ import pathlib
 import re
 
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
-PACK_IMAGE_RE = re.compile(r"^([1-5])_(.+)$")
+PACK_IMAGE_RE = re.compile(r"^([1-5])(?:_(.*))?$")
 
 
 def section(lines: list[str], key: str, parent_indent: int) -> list[str]:
@@ -503,9 +503,16 @@ def main() -> int:
         for name in names:
             match = PACK_IMAGE_RE.match(pathlib.Path(name).stem)
             if not match:
-                errors.append(f"图片文件名必须使用 1_ 到 5_ 前缀: {name}")
+                errors.append(f"图片文件名必须为 1_<图片编码>、2、3、4、5: {name}")
                 continue
             position = int(match.group(1))
+            suffix = match.group(2)
+            if position == 1 and not suffix:
+                errors.append(f"首图文件名必须为 1_<图片编码>: {name}")
+                continue
+            if position > 1 and suffix is not None:
+                errors.append(f"第 {position} 张图片文件名只能是数字 {position}: {name}")
+                continue
             if position in numbered:
                 errors.append(f"图片包存在重复序号 {position}: {numbered[position]}, {name}")
             else:

@@ -8,7 +8,7 @@
 4. `material_codes`：三位字符串编号到材质名称的完整字典；只用于运行时把图片包首图编号映射为“主要材质”，不绑定品牌或型号。
 5. `craft_code_names`、`color_codes`：顶层字典保存工艺代码名称和颜色名称映射；顶层 `craft_codes` 保存本次要分别上架的工艺代码列表，品牌通过 `colors` 配置颜色列表，颜色代码由 `color_codes[color]` 运行时查找。
 6. `sku_code_rule`：启用后不配置 `sku_code`。图片到位后按 `{material_code}{craft_code}-{phone_model}-{color_code}-{image_id}` 生成 SKU；`image_id` 为首图去掉 `1_` 前缀和扩展名后的图片编码，`material_code` 为图片编码末尾三位。
-7. `material_image_rule`：启用后，图片包必须恰好提供以 `1_`、`2_`、`3_`、`4_`、`5_` 开头的五张图，代码按数字前缀组成轮播图；不依赖配置或 manifest 保存图片名称。
+7. `material_image_rule`：启用后，图片包必须恰好提供 `1_<图片编码>`、`2`、`3`、`4`、`5` 五张图（带图片扩展名），代码按数字组成轮播图；不依赖配置或 manifest 保存图片名称。
 8. `attribute_names`：独立配置颜色、工艺、材质的类别名称。标题模板可使用 `{brand}`、`{material}`、`{craft_codes}`、`{desc}`；当 `desc.source: ai` 时，必须在图片包到位后生成或注入 AI 图片特征短语。
 
 ## 图片
@@ -32,7 +32,7 @@ defaults:
     package_outer: D:/project/temu-listing-ops/data/waibaozhuang-goods.JPEG
 ```
 
-相对路径以项目根目录解析；`package_outer` 也允许使用规范化绝对路径。Windows 路径大小写通常不敏感，但技能仍应按实际文件存在性校验，并在报告中使用规范化绝对路径。不要上传同一文件两次。图片包的五个文件名无需写入 `listing.yaml`：当 `files` 为空时，按 `1_` 到 `5_` 数字前缀自动发现和排序。`detail.source: carousel` 表示详情装修组件复用已解析的轮播素材清单。
+相对路径以项目根目录解析；`package_outer` 也允许使用规范化绝对路径。Windows 路径大小写通常不敏感，但技能仍应按实际文件存在性校验，并在报告中使用规范化绝对路径。不要上传同一文件两次。图片包的五个文件名无需写入 `listing.yaml`：当 `files` 为空时，按首图 `1_` 和后续纯数字 `2`～`5` 自动发现和排序。`detail.source: carousel` 表示详情装修组件复用已解析的轮播素材清单。
 
 运行 `scripts/validate_listing.py <配置路径> --json` 会生成图片包级执行计划，其中：
 
@@ -40,7 +40,7 @@ defaults:
 - `material_search_terms` 是后续品牌在素材中心精确查找的文件名；命中时只选择，不再上传。
 - `brands` 是已按配置顺序分组的品牌 payload，每项已经包含最终标题及其全部手机型号、SKU 和价格，不应在逐品牌执行时重新推导。
 - `detail_files` 当前按 `detail.source: carousel` 复用轮播顺序；它表示绑定顺序，不表示重新上传。
-- 图片包 `1_` 文件是材质编码图；代码必须按 `1_` 到 `5_` 排序且不读取 `manifest.images`。缺号、重号或非数字前缀文件都会停止。SKU 必须等图片包到位后生成，不能从旧表格或厂家 SKU 回填。
+- 图片包 `1_` 文件是材质编码图；代码必须按 `1` 到 `5` 排序且不读取 `manifest.images`。缺号、重号、后四张带额外编码或首图不带编码都会停止。SKU 必须等图片包到位后生成，不能从旧表格或厂家 SKU 回填。
 
 执行计划只在本次图片包任务内有效。配置或图片内容变化后必须重新运行校验；`material_cache_key` 改变时旧的素材 ready 状态自动失效。
 
