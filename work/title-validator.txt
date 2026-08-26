@@ -1,0 +1,10 @@
+OK
+WARNING: 商品标题需在首图材质解析和 AI 图片特征描述完成后生成
+WARNING: 轮播图由图片包任务注入；开始浏览器操作前必须重新校验实际本地文件
+WARNING: 材质编号需在任务注入图片后校验首图文件名，并作为生成 SKU 的前三位
+config=D:\project\temu-listing-ops\config\listing.yaml
+project_root=D:\project\temu-listing-ops
+carousel_files=
+package_outer=D:\project\temu-listing-ops\data\waibaozhuang-goods.JPEG
+material_cache_key=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+brands=57
