@@ -10,6 +10,12 @@ MATERIAL_XLSX = Path(r"D:\project\材质编码.xlsx")
 SOURCE_CONFIG = Path(r"D:\project\temu-listing-ops\config\listing.yaml.before-material-20260826.bak")
 OUTPUT_CONFIG = Path(r"D:\project\temu-listing\artifacts\listing.yaml")
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+BRAND_PREFIXES = ("Galaxy", "iPhone", "荣耀", "oppo", "realme", "vivo", "传音", "小米", "红米")
+
+
+def normalize_brand(value: str) -> str:
+    """Keep only the manufacturer prefix; model membership stays in phone_models."""
+    return next((prefix for prefix in BRAND_PREFIXES if value.startswith(prefix)), value)
 
 
 def read_material_codes(path: Path) -> dict[str, str]:
@@ -61,26 +67,30 @@ def inject(text: str, codes: dict[str, str]) -> str:
         elif line == "unresolved_variants:":
             in_brands = False
         brand = re.match(r'^  - brand: "(.*)"$', line)
-        if brand and in_brands:
-            output.append(line)
-            code = ""
-            for lookahead in lines[index + 1 :]:
-                if re.match(r"^  - brand:", lookahead) or lookahead == "unresolved_variants:":
-                    break
-                sku = re.search(r'^\s{8}sku_code: "(\d{3})', lookahead)
-                if sku:
-                    code = sku.group(1)
-                    break
-            if not code or code not in codes:
-                raise ValueError(f"品牌缺少有效 SKU 材质编号: {brand.group(1)}")
-            output.append(f'    material_code: "{code}"')
-            output.append(f'    material: "{codes[code]}"')
+        if brand:
+            source_brand = brand.group(1)
+            output.append(f'  - brand: "{normalize_brand(source_brand)}"')
+            if in_brands:
+                output.append(f'    group_id: "{source_brand}"')
+                code = ""
+                for lookahead in lines[index + 1 :]:
+                    if re.match(r"^  - brand:", lookahead) or lookahead == "unresolved_variants:":
+                        break
+                    sku = re.search(r'^\s{8}sku_code: "(\d{3})', lookahead)
+                    if sku:
+                        code = sku.group(1)
+                        break
+                if not code or code not in codes:
+                    raise ValueError(f"品牌缺少有效 SKU 材质编号: {source_brand}")
+                output.append(f'    material_code: "{code}"')
+                output.append(f'    material: "{codes[code]}"')
             continue
         output.append(line)
     text = "\n".join(output) + "\n"
     text = text.replace(
         "    主要材质: PC\n",
-        "    # 主要材质由 brands[].material 与图片包首图材质编号动态填入\n",
+        "    # Temu 的“主要材质”独立于 material_codes，始终选择页面候选 PC。\n"
+        "    main_material: PC\n",
     )
     return text
 

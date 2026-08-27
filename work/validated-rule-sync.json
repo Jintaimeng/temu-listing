@@ -1,9 +1,9 @@
 {
   "ok": true,
   "warnings": [
-    "商品标题需在首图材质解析和 AI 图片特征描述完成后生成",
-    "轮播图由图片包任务注入；开始浏览器操作前必须重新校验实际本地文件",
-    "材质编号需在任务注入图片后校验首图文件名，并作为生成 SKU 的前三位"
+    "��Ʒ����������ͼ���ʽ����� AI ͼƬ����������ɺ�����",
+    "�ֲ�ͼ��ͼƬ������ע�룻��ʼ���������ǰ��������У��ʵ�ʱ����ļ�",
+    "���ʱ����������ע��ͼƬ��У����ͼ�ļ���������Ϊ���� SKU ��ǰ��λ"
   ],
   "plan": {
     "schema_version": 2,
@@ -14,7 +14,7 @@
     "carousel_files": [],
     "detail_files": [],
     "package_outer": "D:\\project\\temu-listing-ops\\data\\waibaozhuang-goods.JPEG",
-    "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳",
+    "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������",
     "title_desc": "",
     "material_code": "",
     "material": "",
@@ -25,7 +25,7 @@
       "image_id_source": "first_image_filename_stem",
       "craft_source": "craft_codes",
       "color_source": "brands.colors -> color_codes",
-      "color_code_system": "精致",
+      "color_code_system": "����",
       "color_code_suffix": "",
       "pattern": "{material_code}{craft_code}-{phone_model}-{color_code}-{image_id}"
     },
@@ -44,271 +44,271 @@
         {
           "material_code": "027",
           "craft_code": "GY",
-          "label": "电镀TPU[光油]",
+          "label": "���TPU[����]",
           "price": 4.9
         },
         {
           "material_code": "050",
           "craft_code": "GY",
-          "label": "磁吸肤感壳[光油]",
+          "label": "�������п�[����]",
           "price": 6.4
         },
         {
           "material_code": "093",
           "craft_code": "GY",
-          "label": "普通玻璃[贴皮]光油",
+          "label": "��ͨ����[��Ƥ]����",
           "price": 4.3
         },
         {
           "material_code": "046",
           "craft_code": "GY",
-          "label": "减震气囊壳[光油]",
+          "label": "�������ҿ�[����]",
           "price": 3.6
         },
         {
           "material_code": "047",
           "craft_code": "GY",
-          "label": "奶油纹[光油]",
+          "label": "������[����]",
           "price": 3.6
         },
         {
           "material_code": "015",
           "craft_code": "GY",
-          "label": "彩银壳[光油]",
+          "label": "������[����]",
           "price": 4.8
         },
         {
           "material_code": "041",
           "craft_code": "GY",
-          "label": "磁吸彩银壳[光油]",
+          "label": "����������[����]",
           "price": 6.3
         },
         {
           "material_code": "075",
           "craft_code": "GY",
-          "label": "皮纹TPU[光油]",
+          "label": "Ƥ��TPU[����]",
           "price": 3.5
         },
         {
           "material_code": "001",
           "craft_code": "GY",
-          "label": "天眼阶梯[光油]",
+          "label": "���۽���[����]",
           "price": 3.7
         },
         {
           "material_code": "048",
           "craft_code": "GY",
-          "label": "胖墩墩[光油]",
+          "label": "�ֶն�[����]",
           "price": 3.9
         },
         {
           "material_code": "053",
           "craft_code": "GY",
-          "label": "四角防摔卡包[光油]",
+          "label": "�ĽǷ�ˤ����[����]",
           "price": 3.5
         },
         {
           "material_code": "016",
           "craft_code": "GY",
-          "label": "马卡龙[光油]",
+          "label": "������[����]",
           "price": 3.8
         },
         {
           "material_code": "030",
           "craft_code": "GY",
-          "label": "四角防摔折叠壳[光油]",
+          "label": "�ĽǷ�ˤ�۵���[����]",
           "price": 4.6
         },
         {
           "material_code": "025",
           "craft_code": "GY",
-          "label": "折叠壳[光油]",
+          "label": "�۵���[����]",
           "price": 4.6
         },
         {
           "material_code": "035",
           "craft_code": "GY",
-          "label": "羽纱壳[光油]",
+          "label": "��ɴ��[����]",
           "price": 4.7
         },
         {
           "material_code": "051",
           "craft_code": "GY",
-          "label": "电镀四角防摔壳[光油]",
+          "label": "����ĽǷ�ˤ��[����]",
           "price": 4.6
         },
         {
           "material_code": "058",
           "craft_code": "GY",
-          "label": "透明四角防摔壳[光油]",
+          "label": "͸���ĽǷ�ˤ��[����]",
           "price": 3.5
         },
         {
           "material_code": "058",
           "craft_code": "GY",
-          "label": "透明四角防摔壳[闪卡光油]",
+          "label": "͸���ĽǷ�ˤ��[��������]",
           "price": 4.1
         },
         {
           "material_code": "060",
           "craft_code": "GY",
-          "label": "天眼阶梯镜面[光油]",
+          "label": "���۽��ݾ���[����]",
           "price": 4.1
         },
         {
           "material_code": "062",
           "craft_code": "GY",
-          "label": "幻影壳[光油]",
+          "label": "��Ӱ��[����]",
           "price": 3.2
         },
         {
           "material_code": "065",
           "craft_code": "GY",
-          "label": "电镀磨砂相框[光油]",
+          "label": "���ĥɰ���[����]",
           "price": 4.6
         },
         {
           "material_code": "066",
           "craft_code": "GY",
-          "label": "实色折叠壳[光油]",
+          "label": "ʵɫ�۵���[����]",
           "price": 6.3
         },
         {
           "material_code": "029",
           "craft_code": "GY",
-          "label": "透色折叠壳[光油]",
+          "label": "͸ɫ�۵���[����]",
           "price": 6.3
         },
         {
           "material_code": "043",
           "craft_code": "GY",
-          "label": "磁吸透明四角防摔壳[光油]",
+          "label": "����͸���ĽǷ�ˤ��[����]",
           "price": 4.9
         },
         {
           "material_code": "006",
           "craft_code": "GY",
-          "label": "磨砂大孔[光油]",
+          "label": "ĥɰ���[����]",
           "price": 3.6
         },
         {
           "material_code": "067",
           "craft_code": "GY",
-          "label": "泡芙壳[光油]-苹果",
+          "label": "��ܽ��[����]-ƻ��",
           "price": 3.4
         },
         {
           "material_code": "067",
           "craft_code": "GY",
-          "label": "泡芙壳[光油]-安卓",
+          "label": "��ܽ��[����]-��׿",
           "price": 3.8
         },
         {
           "material_code": "068",
           "craft_code": "GY",
-          "label": "菱纹壳[光油]",
+          "label": "���ƿ�[����]",
           "price": 3.9
         },
         {
           "material_code": "069",
           "craft_code": "GY",
-          "label": "奶油纹[镜面光油]",
+          "label": "������[�������]",
           "price": 4.1
         },
         {
           "material_code": "070",
           "craft_code": "GY",
-          "label": "翻盖镜子壳[光油]",
+          "label": "���Ǿ��ӿ�[����]",
           "price": 4.8
         },
         {
           "material_code": "074",
           "craft_code": "GY",
-          "label": "靓眼壳[光油]",
+          "label": "���ۿ�[����]",
           "price": 3.8
         },
         {
           "material_code": "074",
           "craft_code": "GY",
-          "label": "靓眼壳[渐变黑#光油]",
+          "label": "���ۿ�[�����#����]",
           "price": 4.2
         },
         {
           "material_code": "074",
           "craft_code": "GY",
-          "label": "靓眼壳[渐变粉#光油]",
+          "label": "���ۿ�[�����#����]",
           "price": 4.2
         },
         {
           "material_code": "076",
           "craft_code": "GY",
-          "label": "果冻壳[光油]",
+          "label": "������[����]",
           "price": 4.1
         },
         {
           "material_code": "047",
           "craft_code": "GY",
-          "label": "奶油纹[渐变粉#光油]",
+          "label": "������[�����#����]",
           "price": 3.9
         },
         {
           "material_code": "047",
           "craft_code": "GY",
-          "label": "奶油纹[渐变蓝#光油]",
+          "label": "������[������#����]",
           "price": 3.9
         },
         {
           "material_code": "079",
           "craft_code": "GY",
-          "label": "彩波纹[光油]",
+          "label": "�ʲ���[����]",
           "price": 3.6
         },
         {
           "material_code": "082",
           "craft_code": "GY",
-          "label": "磁吸果冻壳[光油]",
+          "label": "����������[����]",
           "price": 4.8
         },
         {
           "material_code": "005",
           "craft_code": "GY",
-          "label": "康宁贴皮[光油]",
+          "label": "������Ƥ[����]",
           "price": 5.1
         },
         {
           "material_code": "008",
           "craft_code": "GY",
-          "label": "康宁镜面[光油]",
+          "label": "��������[����]",
           "price": 5.5
         },
         {
           "material_code": "057",
           "craft_code": "GY",
-          "label": "泡泡心[满图光油]",
+          "label": "������[��ͼ����]",
           "price": 3.6
         },
         {
           "material_code": "057",
           "craft_code": "GY",
-          "label": "泡泡心[避孔光油]",
+          "label": "������[�ܿ׹���]",
           "price": 3.6
         },
         {
           "material_code": "003",
           "craft_code": "GY",
-          "label": "大孔磨砂亚克力磁吸壳[光油]",
+          "label": "���ĥɰ�ǿ���������[����]",
           "price": 4.5
         },
         {
           "material_code": "059",
           "craft_code": "GY",
-          "label": "星空壳[满图光油]",
+          "label": "�ǿտ�[��ͼ����]",
           "price": 5.1
         },
         {
           "material_code": "059",
           "craft_code": "GY",
-          "label": "星空壳[避孔光油]",
+          "label": "�ǿտ�[�ܿ׹���]",
           "price": 5.1
         }
       ],
@@ -613,9 +613,9 @@
           }
         ],
         "colors": [
-          "银色",
-          "黑色",
-          "古典白"
+          "��ɫ",
+          "��ɫ",
+          "�ŵ��"
         ],
         "spec_counts": {
           "phone_model_count": 60,
@@ -627,7 +627,7 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
         "brand": "iPhone",
@@ -722,11 +722,11 @@
           }
         ],
         "colors": [
-          "银色",
-          "黑色",
-          "透明",
-          "古典白",
-          "粉色"
+          "��ɫ",
+          "��ɫ",
+          "͸��",
+          "�ŵ��",
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 29,
@@ -738,10 +738,10 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
-        "brand": "荣耀",
+        "brand": "��ҫ",
         "title": "",
         "phone_models": [
           {
@@ -815,7 +815,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 23,
@@ -827,7 +827,7 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
         "brand": "oppo",
@@ -997,7 +997,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 54,
@@ -1009,7 +1009,7 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
         "brand": "realme",
@@ -1164,7 +1164,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 49,
@@ -1176,7 +1176,7 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
         "brand": "vivo",
@@ -1394,7 +1394,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 70,
@@ -1406,10 +1406,10 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
-        "brand": "传音",
+        "brand": "����",
         "title": "",
         "phone_models": [
           {
@@ -1552,7 +1552,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 46,
@@ -1564,10 +1564,10 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
-        "brand": "小米",
+        "brand": "С��",
         "title": "",
         "phone_models": [
           {
@@ -1728,7 +1728,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 52,
@@ -1740,10 +1740,10 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       },
       {
-        "brand": "红米",
+        "brand": "����",
         "title": "",
         "phone_models": [
           {
@@ -1829,7 +1829,7 @@
           }
         ],
         "colors": [
-          "黑色"
+          "��ɫ"
         ],
         "spec_counts": {
           "phone_model_count": 27,
@@ -1841,7 +1841,7 @@
         "craft_codes": [
           "GY"
         ],
-        "title_template": "适用于{brand}手机壳{material}{craft_codes}{desc}保护壳"
+        "title_template": "������{brand}�ֻ���{material}{craft_codes}{desc}������"
       }
     ]
   }

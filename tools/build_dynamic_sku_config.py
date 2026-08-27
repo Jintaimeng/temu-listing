@@ -10,6 +10,12 @@ SOURCE_CONFIG = Path(r"D:\project\temu-listing-ops\config\listing.yaml.before-ma
 MATERIAL_XLSX = Path(r"D:\project\材质编码.xlsx")
 CRAFT_XLSX = Path(r"D:\project\工艺代码.xlsx")
 COLOR_XLSX = Path(r"D:\project\颜色编码.xlsx")
+BRAND_PREFIXES = ("Galaxy", "iPhone", "荣耀", "oppo", "realme", "vivo", "传音", "小米", "红米")
+
+
+def normalize_brand(value: str) -> str:
+    """Keep only the manufacturer prefix; model membership stays in phone_models."""
+    return next((prefix for prefix in BRAND_PREFIXES if value.startswith(prefix)), value)
 OUTPUT_CONFIG = Path(r"D:\project\temu-listing\artifacts\listing.dynamic-sku.yaml")
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 
@@ -88,7 +94,7 @@ def inject(text: str, material_codes: dict[str, str], craft_codes: dict[str, str
     if not selected_crafts:
         raise ValueError("未找到可转换的 craft_code")
     insert = [
-        "# 材质名称仅用于运行时把图片编号映射到商品属性，不绑定品牌或 SKU。",
+        "# 图片包材质编码元数据，仅用于标题中的材质词和 SKU；不写入 Temu“主要材质”。",
         "material_codes:",
         *[f'  "{code}": {yaml_quote(name)}' for code, name in sorted(material_codes.items())],
         "",
@@ -148,6 +154,10 @@ def inject(text: str, material_codes: dict[str, str], craft_codes: dict[str, str
         brand = re.match(r'^  -\s*brand:\s*(.*?)\s*$', line)
         if brand:
             current_brand = brand.group(1).strip().strip('"\'')
+            if in_brands:
+                output.append(f'  - brand: "{normalize_brand(current_brand)}"')
+                output.append(f'    group_id: "{current_brand}"')
+                continue
         if in_brands and re.match(r'^        craft_code:\s*', line):
             continue
         if in_brands and re.match(r'^        color:\s*', line):
@@ -164,7 +174,8 @@ def inject(text: str, material_codes: dict[str, str], craft_codes: dict[str, str
     text = "\n".join(output) + "\n"
     text = text.replace(
         "    主要材质: PC\n",
-        "    # 主要材质由图片包首图材质编号动态填入\n",
+        "    # Temu 的“主要材质”独立于 material_codes，始终选择页面候选 PC。\n"
+        "    main_material: PC\n",
     )
     text = text.replace(
         "# 不同型号允许填写相同 sku_code，也允许分别使用不同 sku_code。",

@@ -95,6 +95,7 @@ def brand_rows(lines: list[str]) -> list[tuple[str, dict[str, str]]]:
     """Read brands[].phone_models rows without requiring PyYAML."""
     result: list[tuple[str, dict[str, str]]] = []
     current_brand = ""
+    current_group_id = ""
     current: dict[str, str] | None = None
     in_brands = False
     for line in lines:
@@ -111,12 +112,20 @@ def brand_rows(lines: list[str]) -> list[tuple[str, dict[str, str]]]:
             brand = re.match(r"^\s{2}-\s*brand:\s*(.*?)\s*$", line)
             if brand:
                 current_brand = brand.group(1).strip().strip("\"'")
+                current_group_id = current_brand
                 current = None
+                continue
+            group_id = re.match(r"^\s{4}group_id:\s*(.*?)\s*$", line)
+            if group_id:
+                current_group_id = group_id.group(1).strip().strip("\"'")
                 continue
             model = re.match(r"^\s{6}-\s*phone_model:\s*(.*?)\s*$", line)
             if model:
-                current = {"phone_model": model.group(1).strip().strip("\"'")}
-                result.append((current_brand, current))
+                current = {
+                    "phone_model": model.group(1).strip().strip("\"'"),
+                    "_brand": current_brand,
+                }
+                result.append((current_group_id, current))
                 continue
             child = re.match(r"^\s{8}([\w\u4e00-\u9fff]+):\s*(.*?)\s*$", line)
             if child and current is not None:
@@ -124,8 +133,37 @@ def brand_rows(lines: list[str]) -> list[tuple[str, dict[str, str]]]:
     return result
 
 
+def brand_names(lines: list[str]) -> dict[str, str]:
+    """Map each internal group_id to the display brand name."""
+    result: dict[str, str] = {}
+    current_brand = ""
+    current_group_id = ""
+    in_brands = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "brands:":
+            in_brands = True
+            continue
+        if not in_brands:
+            continue
+        if stripped and not stripped.startswith("#"):
+            indent = len(line) - len(line.lstrip())
+            if indent == 0:
+                break
+            brand = re.match(r"^\s{2}-\s*brand:\s*(.*?)\s*$", line)
+            if brand:
+                current_brand = brand.group(1).strip().strip("\"'")
+                current_group_id = current_brand
+                continue
+            group_id = re.match(r"^\s{4}group_id:\s*(.*?)\s*$", line)
+            if group_id:
+                current_group_id = group_id.group(1).strip().strip("\"'")
+                result[current_group_id.casefold()] = current_brand
+    return result
+
+
 def brand_titles(lines: list[str]) -> dict[str, str]:
-    """Read optional brands[].title values keyed by case-insensitive brand."""
+    """Read optional brands[].title values keyed by case-insensitive group_id."""
     result: dict[str, str] = {}
     current_brand = ""
     in_brands = False
@@ -144,6 +182,10 @@ def brand_titles(lines: list[str]) -> dict[str, str]:
             if brand:
                 current_brand = brand.group(1).strip().strip("\"'")
                 continue
+            group_id = re.match(r"^\s{4}group_id:\s*(.*?)\s*$", line)
+            if group_id:
+                current_brand = group_id.group(1).strip().strip("\"'")
+                continue
             title = re.match(r"^\s{4}title:\s*(.*?)\s*$", line)
             if title and current_brand:
                 result[current_brand.casefold()] = title.group(1).strip().strip("\"'")
@@ -151,7 +193,7 @@ def brand_titles(lines: list[str]) -> dict[str, str]:
 
 
 def brand_colors(lines: list[str]) -> dict[str, list[str]]:
-    """Read brands[].colors; color is configured once per brand, not per model."""
+    """Read brands[].colors; color is configured once per listing group, not per model."""
     result: dict[str, list[str]] = {}
     current_brand = ""
     in_brands = False
@@ -170,6 +212,12 @@ def brand_colors(lines: list[str]) -> dict[str, list[str]]:
         if brand:
             current_brand = brand.group(1).strip().strip("\"'")
             result[current_brand.casefold()] = []
+            in_colors = False
+            continue
+        group_id = re.match(r"^\s{4}group_id:\s*(.*?)\s*$", line)
+        if group_id:
+            current_brand = group_id.group(1).strip().strip("\"'")
+            result.setdefault(current_brand.casefold(), [])
             in_colors = False
             continue
         if current_brand and re.match(r"^\s{4}colors:\s*$", line):
@@ -247,8 +295,62 @@ def top_list_values(lines: list[str], section_name: str) -> list[str]:
     return result
 
 
+def pricing_config(lines: list[str]) -> dict[str, object]:
+    """Read quote rows and pricing formulas without requiring PyYAML."""
+    block = top_section(lines, "pricing")
+    result: dict[str, object] = {
+        "difference": float(value(block, "difference") or 0),
+        "suggested_retail_multiplier": float(value(block, "suggested_retail_multiplier") or 8),
+        "declaration_price_currency": value(block, "declaration_price_currency") or "store_currency",
+        "suggested_retail_price_currency": value(block, "suggested_retail_price_currency") or "USD",
+        "source": {
+            "url": value(section(block, "source", 0), "url") or "",
+            "sheet_tab": value(section(block, "source", 0), "sheet_tab") or "",
+            "synced_at": value(section(block, "source", 0), "synced_at") or "",
+            "sync_frequency": value(section(block, "source", 0), "sync_frequency") or "daily",
+        },
+        "quote_rows": [],
+    }
+    table: dict[str, dict[str, float]] = {}
+    rows: list[dict[str, object]] = []
+    current_material = ""
+    current_craft = ""
+    for line in block:
+        stripped = line.strip()
+        indent = len(line) - len(line.lstrip())
+        if stripped == "quote_rows:":
+            current_material = ""
+            current_craft = ""
+            continue
+        material = re.match(r'^\s{4}-\s*material_code:\s*["\']?(\d{3})["\']?\s*$', line)
+        if not material:
+            material = re.match(r'^\s{6}material_code:\s*["\']?(\d{3})["\']?\s*$', line)
+        if material:
+            current_material = material.group(1)
+            current_craft = ""
+            rows.append({"material_code": current_material})
+            continue
+        craft = re.match(r'^\s{6}craft_code:\s*["\']?([A-Z]{2})["\']?\s*$', line)
+        if craft and rows:
+            current_craft = craft.group(1)
+            rows[-1]["craft_code"] = current_craft
+            continue
+        label = re.match(r'^\s{6}label:\s*["\']?(.*?)["\']?\s*$', line)
+        if label and rows:
+            rows[-1]["label"] = label.group(1).strip().strip("\"'")
+            continue
+        price = re.match(r'^\s{6}price:\s*([0-9]+(?:\.[0-9]+)?)\s*$', line)
+        if price and rows and current_craft:
+            numeric = float(price.group(1))
+            rows[-1]["price"] = numeric
+            table.setdefault(current_material, {}).setdefault(current_craft, numeric)
+    result["quote_rows"] = rows
+    result["quote_lookup"] = table
+    return result
+
+
 def brand_materials(lines: list[str]) -> dict[str, tuple[str, str]]:
-    """Read brands[].material_code/material metadata keyed by brand."""
+    """Read brands[].material_code/material metadata keyed by group_id."""
     result: dict[str, tuple[str, str]] = {}
     current = ""
     in_brands = False
@@ -272,6 +374,14 @@ def brand_materials(lines: list[str]) -> dict[str, tuple[str, str]]:
             code = ""
             name = ""
             continue
+        group_id = re.match(r'^\s{4}group_id:\s*(.*?)\s*$', line)
+        if group_id:
+            if current:
+                result[current.casefold()] = (code, name)
+            current = group_id.group(1).strip().strip("\"'")
+            code = ""
+            name = ""
+            continue
         if current:
             match = re.match(r'^\s{4}material_code:\s*(.*?)\s*$', line)
             if match:
@@ -288,6 +398,7 @@ def ordered_brand_payloads(
     rows: list[tuple[str, dict[str, str]]],
     title_template: str,
     title_desc: str,
+    explicit_brand_names: dict[str, str] | None = None,
     explicit_titles: dict[str, str] | None = None,
     explicit_colors: dict[str, list[str]] | None = None,
     explicit_crafts: list[str] | None = None,
@@ -297,11 +408,12 @@ def ordered_brand_payloads(
     """Group validated model rows into immutable per-brand execution payloads."""
     payloads: list[dict[str, object]] = []
     grouped: dict[str, tuple[str, list[dict[str, str]]]] = {}
-    for brand, model in rows:
-        key = brand.casefold()
+    for group_id, model in rows:
+        key = group_id.casefold()
+        brand = (explicit_brand_names or {}).get(key, model.get("_brand", group_id))
         if key not in grouped:
             grouped[key] = (brand, [])
-        grouped[key][1].append(dict(model))
+        grouped[key][1].append({k: v for k, v in model.items() if not k.startswith("_")})
     crafts = list(explicit_crafts or []) or [""]
     for key, (brand, models) in grouped.items():
         colors = (explicit_colors or {}).get(key, [])
@@ -315,6 +427,16 @@ def ordered_brand_payloads(
             payload: dict[str, object] = {"brand": brand, "title": title, "phone_models": [dict(row) for row in models]}
             if colors:
                 payload["colors"] = list(colors)
+            # Temu exposes two specification dimensions (model and color),
+            # while its SKU table materializes their combinations. Keep both
+            # counts in the immutable execution plan so the browser worker
+            # does not confuse specification values with generated SKU rows.
+            payload["spec_counts"] = {
+                "phone_model_count": len(models),
+                "color_count": len(colors),
+                "spec_value_count": len(models) + len(colors),
+                "sku_combination_count": len(models) * len(colors),
+            }
             if craft:
                 payload["craft_code"] = craft
                 payload["craft_codes"] = [craft]
@@ -353,7 +475,9 @@ def execution_plan(
     title_desc: str,
     material_code: str = "",
     material: str = "",
+    main_material: str = "PC",
     sku_code_rule: dict[str, str] | None = None,
+    pricing: dict[str, object] | None = None,
 ) -> dict[str, object]:
     carousel = [str(path) for path in carousel_files]
     return {
@@ -369,7 +493,9 @@ def execution_plan(
         "title_desc": title_desc,
         "material_code": material_code,
         "material": material,
+        "main_material": main_material,
         "sku_code_rule": sku_code_rule or {},
+        "pricing": pricing or {},
         "brands": brands,
     }
 
@@ -403,6 +529,7 @@ def main() -> int:
     static_specs = section(specs, "static", 2)
     default_phone_model = value(static_specs, "手机型号")
     configured_models = brand_rows(lines)
+    configured_brand_names = brand_names(lines)
     configured_titles = brand_titles(lines)
     configured_brand_colors = brand_colors(lines)
     configured_codes = material_codes(lines)
@@ -410,6 +537,9 @@ def main() -> int:
     configured_craft_names = mapping_values(lines, "craft_code_names")
     configured_colors = mapping_values(lines, "color_codes")
     configured_attribute_names = mapping_values(lines, "attribute_names")
+    pricing = pricing_config(lines)
+    attributes = section(lines, "attributes", 0)
+    main_material = value(attributes, "main_material") or ""
     sku_rule = top_section(lines, "sku_code_rule")
     sku_enabled = (value(sku_rule, "enabled") or "").casefold() in {"true", "yes", "1"}
     material_rule = top_section(lines, "material_image_rule")
@@ -429,13 +559,14 @@ def main() -> int:
     if not configured_models:
         errors.append("brands.phone_models 缺失或为空")
     seen_variants: set[tuple[str, str]] = set()
-    seen_brands: set[str] = set()
-    for brand, row in configured_models:
+    seen_groups: set[str] = set()
+    for group_id, row in configured_models:
+        brand = configured_brand_names.get(group_id.casefold(), row.get("_brand", group_id))
         if not brand:
             errors.append("brands 存在未填写 brand 的规则")
-        seen_brands.add(brand.casefold())
+        seen_groups.add(group_id.casefold())
         phone_model = row.get("phone_model", "").strip()
-        variant_key = (brand.casefold(), phone_model.casefold())
+        variant_key = (group_id.casefold(), phone_model.casefold())
         if not phone_model:
             errors.append("brands.phone_models 存在未填写 phone_model 的规则")
             continue
@@ -444,16 +575,9 @@ def main() -> int:
         seen_variants.add(variant_key)
         if "color" in row:
             errors.append(f"brands[{brand}].phone_models[{phone_model}] 不应配置 color；请移到 brands.colors")
-        for key in (
-            "declaration_price",
-            "suggested_retail_price",
-            "suggested_retail_price_currency",
-        ):
-            if not row.get(key, "").strip():
-                errors.append(f"brands[{brand}].phone_models[{phone_model}].{key} 缺失或为空")
-        currency = row.get("suggested_retail_price_currency", "").strip()
-        if currency and not re.fullmatch(r"[A-Z]{3}", currency):
-            errors.append(f"brands[{brand}].phone_models[{phone_model}].suggested_retail_price_currency 必须是三位大写币种代码")
+        for legacy_key in ("declaration_price", "suggested_retail_price", "suggested_retail_price_currency"):
+            if legacy_key in row:
+                errors.append(f"brands[{brand}].phone_models[{phone_model}] 不应配置旧价格字段 {legacy_key}；价格由 pricing.quote_rows + difference 计算")
         if "craft_code" in row:
             errors.append(f"brands[{brand}].phone_models[{phone_model}] 不应配置 craft_code；请移到 brands.craft_codes")
     configured_craft_keys = {key.upper() for key in configured_craft_names}
@@ -463,13 +587,14 @@ def main() -> int:
         if craft.upper() not in configured_craft_keys:
             errors.append(f"craft_codes 未在 craft_code_names 中配置: {craft}")
     configured_color_keys = {key.casefold() for key in configured_colors}
-    for brand_key in seen_brands:
-        colors = configured_brand_colors.get(brand_key, [])
+    for group_key in seen_groups:
+        brand = configured_brand_names.get(group_key, group_key)
+        colors = configured_brand_colors.get(group_key, [])
         if not colors:
-            errors.append(f"brands[{brand_key}] 缺少非空 colors；颜色必须配置在品牌级")
+            errors.append(f"brands[{brand}] 缺少非空 colors；颜色必须配置在品牌级")
         for color in colors:
             if color.casefold() not in configured_color_keys:
-                errors.append(f"brands[{brand_key}].colors 未在 color_codes 中配置: {color}")
+                errors.append(f"brands[{brand}].colors 未在 color_codes 中配置: {color}")
     if sku_enabled and not configured_crafts:
         errors.append("sku_code_rule 已启用，但顶层 craft_codes 缺失")
     if sku_enabled and not configured_craft_names:
@@ -479,6 +604,15 @@ def main() -> int:
     for key in ("color", "craft", "material"):
         if key not in {name.casefold() for name in configured_attribute_names}:
             errors.append(f"attribute_names 缺少类别名: {key}")
+    if main_material.casefold() != "pc":
+        errors.append("defaults.attributes.main_material 必须固定配置为 PC")
+    if not pricing.get("quote_lookup"):
+        errors.append("pricing.quote_rows 缺失或为空")
+    try:
+        if float(pricing.get("suggested_retail_multiplier", 0)) <= 0:
+            errors.append("pricing.suggested_retail_multiplier 必须为正数")
+    except (TypeError, ValueError):
+        errors.append("pricing.difference 和 suggested_retail_multiplier 必须为数字")
     if dynamic_title and task_injected:
         warnings.append("商品标题需在首图材质解析和 AI 图片特征描述完成后生成")
     if default_phone_model and not any(key[1] == default_phone_model.casefold() for key in seen_variants):
@@ -536,6 +670,12 @@ def main() -> int:
                 errors.append(f"图片包至少需要 {material_carousel_count} 张图，实际 {len(names)} 张")
     elif material_enabled and task_injected:
         warnings.append("材质编号需在任务注入图片后校验首图文件名，并作为生成 SKU 的前三位")
+    if first_material_code and configured_crafts:
+        quote_lookup = pricing.get("quote_lookup", {})
+        material_quotes = quote_lookup.get(first_material_code, {}) if isinstance(quote_lookup, dict) else {}
+        for craft in configured_crafts:
+            if not isinstance(material_quotes, dict) or craft.upper() not in {str(key).upper() for key in material_quotes}:
+                errors.append(f"pricing.quote_rows 缺少材质 {first_material_code} / 工艺 {craft} 的报价")
 
     resolved_names = []
     for name in names:
@@ -567,6 +707,7 @@ def main() -> int:
             configured_models,
             title_template,
             title_desc,
+            explicit_brand_names=configured_brand_names,
             explicit_titles=configured_titles,
             explicit_colors=configured_brand_colors,
             explicit_crafts=configured_crafts,
@@ -576,6 +717,8 @@ def main() -> int:
         title_desc=title_desc,
         material_code=first_material_code,
         material=(configured_codes.get(first_material_code) if first_material_code else ""),
+        main_material=main_material,
+        pricing=pricing,
         sku_code_rule={
             key: value(sku_rule, key) or ""
             for key in (
