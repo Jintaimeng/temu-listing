@@ -42,7 +42,7 @@ defaults:
 
 - `material_cache_key` 是按轮播文件顺序和文件内容生成的 SHA-256 指纹；素材复用状态还必须以当前店铺/Chrome 配置隔离。
 - `material_search_terms` 是后续品牌在素材中心精确查找的文件名；命中时只选择，不再上传。
-- `brands` 是已按配置顺序分组的品牌 payload，每项包含最终标题及其全部手机型号；`pricing` 携带报价表、差价、倍率和币种。图片包首图材质编码就绪后，以当前 `craft_code` 查表并生成两种页面价格；不得从手机型号条目或旧价格回退。每项同时输出 `spec_counts`：`phone_model_count`、`color_count`、`spec_value_count`（型号数+颜色数）以及 `sku_combination_count`（型号数×颜色数）。前者用于商品规格数量核对，后者用于接受 Temu SKU 信息表自动生成的组合行。
+- `brands` 是已按配置顺序分组的品牌输入；校验脚本输出的执行计划会进一步展开为“品牌 × 颜色 × craft_code”商品 payload，每个 payload 只包含一个 `color`/单元素 `colors`，因此同一品牌的不同颜色必须分别建立商品草稿。每项包含最终标题及其全部手机型号；`pricing` 携带报价表、差价、倍率和币种。图片包首图材质编码就绪后，以当前 `craft_code` 查表并生成两种页面价格；不得从手机型号条目或旧价格回退。每项同时输出 `spec_counts`：`phone_model_count`、`color_count`、`spec_value_count`（型号数+当前颜色数）以及 `sku_combination_count`（型号数×当前颜色数）。前者用于商品规格数量核对，后者用于接受 Temu SKU 信息表自动生成的组合行。
 - `detail_files` 当前按 `detail.source: carousel` 复用轮播顺序；它表示绑定顺序，不表示重新上传。
 - 图片包 `1_` 文件是材质编码图；代码必须按 `1` 到 `5` 排序且不读取 `manifest.images`。缺号、重号、后四张带额外编码或首图不带编码都会停止。首图编码解析出的材质只用于标题内部元数据和 SKU；Temu“主要材质”仍固定读取 `defaults.attributes.main_material`。SKU 必须等图片包到位后生成，不能从旧表格或厂家 SKU 回填。
 
@@ -99,7 +99,7 @@ pricing:
 
 ## 字段映射
 
-将配置键映射到当前页面可见的 label、placeholder、role/name。对自定义下拉框不要直接写 DOM value：打开选项并选择完全匹配的可见文本。若配置值不在选项中，报告候选项并暂停。
+将配置键映射到当前页面可见的 label、placeholder、role/name。对自定义下拉框不要直接写 DOM value：打开选项并选择完全匹配的可见文本。颜色字段是例外：允许直接输入配置颜色，不要求候选列表一定包含该值，但必须读取输入框最终值并确认规格表实际新增该颜色行；其他字段若配置值不在选项中，报告候选项并暂停。
 
 ## 可回写变更
 

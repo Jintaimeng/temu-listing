@@ -419,34 +419,46 @@ def ordered_brand_payloads(
         colors = (explicit_colors or {}).get(key, [])
         code, material = (explicit_materials or {}).get(key, ("", ""))
         for craft in crafts:
-            title = (explicit_titles or {}).get(key, "")
-            if not title and not dynamic_title:
-                title = title_template.replace("{brand}", brand).replace("{品牌}", brand)
-                title = title.replace("{craft_codes}", craft).replace("{craft_code}", craft)
-                title = title.replace("{desc}", title_desc).replace("{描述}", title_desc)
-            payload: dict[str, object] = {"brand": brand, "title": title, "phone_models": [dict(row) for row in models]}
-            if colors:
-                payload["colors"] = list(colors)
-            # Temu exposes two specification dimensions (model and color),
-            # while its SKU table materializes their combinations. Keep both
-            # counts in the immutable execution plan so the browser worker
-            # does not confuse specification values with generated SKU rows.
-            payload["spec_counts"] = {
-                "phone_model_count": len(models),
-                "color_count": len(colors),
-                "spec_value_count": len(models) + len(colors),
-                "sku_combination_count": len(models) * len(colors),
-            }
-            if craft:
-                payload["craft_code"] = craft
-                payload["craft_codes"] = [craft]
-            if dynamic_title:
-                payload["title_template"] = title_template
-            if code:
-                payload["material_code"] = code
-            if material:
-                payload["material"] = material
-            payloads.append(payload)
+            # Each brand/color pair is a separate product task.  Keeping one
+            # color in the payload is important: downstream page filling can
+            # select a single color and Temu will then materialize only the
+            # model x color SKU combinations for that product.
+            color_variants = list(colors) or [""]
+            for color in color_variants:
+                title = (explicit_titles or {}).get(key, "")
+                if not title and not dynamic_title:
+                    title = title_template.replace("{brand}", brand).replace("{品牌}", brand)
+                    title = title.replace("{craft_codes}", craft).replace("{craft_code}", craft)
+                    title = title.replace("{desc}", title_desc).replace("{描述}", title_desc)
+                payload: dict[str, object] = {
+                    "brand": brand,
+                    "title": title,
+                    "phone_models": [dict(row) for row in models],
+                }
+                if color:
+                    payload["color"] = color
+                    payload["colors"] = [color]
+                # Temu exposes two specification dimensions (model and color),
+                # while its SKU table materializes their combinations. Since
+                # each task now owns one color, color_count is always 1 for a
+                # colored product and the task count is brand x color.
+                color_count = 1 if color else 0
+                payload["spec_counts"] = {
+                    "phone_model_count": len(models),
+                    "color_count": color_count,
+                    "spec_value_count": len(models) + color_count,
+                    "sku_combination_count": len(models) * color_count,
+                }
+                if craft:
+                    payload["craft_code"] = craft
+                    payload["craft_codes"] = [craft]
+                if dynamic_title:
+                    payload["title_template"] = title_template
+                if code:
+                    payload["material_code"] = code
+                if material:
+                    payload["material"] = material
+                payloads.append(payload)
     return payloads
 
 

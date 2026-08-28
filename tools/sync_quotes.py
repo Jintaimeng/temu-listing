@@ -218,6 +218,26 @@ def quote_rows(config_text: str, sheet_rows: list[tuple[int, bytes]]) -> list[di
     return rows
 
 
+def filter_rows_by_configured_crafts(config_text: str, rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    """Keep only rows whose craft_code is enabled in the current listing config."""
+    crafts = configured_crafts(config_text)
+    return [row for row in rows if str(row.get("craft_code", "")).upper() in crafts]
+
+
+def extract_update_date(sheet_rows: list[tuple[int, bytes]]) -> str | None:
+    """Find the latest YYYY-MM-DD/中文日期 marker in the 2A-2I header area."""
+    dates: list[str] = []
+    for source_row, row_data in sheet_rows:
+        if source_row > 12 or not row_data:
+            continue
+        for _, value in utf8_strings(row_data):
+            for match in re.findall(r"(?:20\d{2})[-/.年](\d{1,2})[-/.月](\d{1,2})日?", value):
+                y = re.search(r"20\d{2}", value)
+                if y:
+                    dates.append(f"{y.group(0)}-{int(match[0]):02d}-{int(match[1]):02d}")
+    return max(dates) if dates else None
+
+
 def existing_pricing_values(text: str) -> dict[str, str]:
     lines = text.splitlines()
     start = next((i for i, line in enumerate(lines) if line.strip() == "pricing:" and not line.startswith((" ", "\t"))), None)
@@ -230,6 +250,9 @@ def existing_pricing_values(text: str) -> dict[str, str]:
         match = re.match(r'^\s{2}(difference|suggested_retail_multiplier|declaration_price_currency|suggested_retail_price_currency):\s*(.*?)\s*$', line)
         if match:
             values[match.group(1)] = match.group(2).strip().strip('"\'')
+        match = re.match(r'^\s{4}synced_at:\s*["\']?(.*?)["\']?\s*$', line)
+        if match:
+            values["synced_at"] = match.group(1)
     return values
 
 
@@ -287,14 +310,20 @@ def main() -> int:
     config = Path(ns.config)
     text = config.read_text(encoding="utf-8")
     sheet_rows = fetch_sheet_rows(SOURCE_URL)
-    rows = quote_rows(text, sheet_rows)
-    now = dt.date.today().isoformat()
-    updated = replace_top_block(remove_legacy_prices(text), "pricing", yaml_quote_block(rows, now, existing_pricing_values(text)))
+    update_date = extract_update_date(sheet_rows)
+    previous = existing_pricing_values(text)
+    previous_date = previous.get("synced_at")
+    if update_date and previous_date == update_date:
+        print(json.dumps({"config": str(config), "updated": False, "reason": "source_unchanged", "update_date": update_date, "rows": 0}, ensure_ascii=False))
+        return 0
+    rows = filter_rows_by_configured_crafts(text, quote_rows(text, sheet_rows))
+    now = update_date or dt.date.today().isoformat()
+    updated = replace_top_block(remove_legacy_prices(text), "pricing", yaml_quote_block(rows, now, previous))
     if ns.dry_run:
         print(json.dumps({"rows": len(rows), "synced_at": now}, ensure_ascii=False))
     else:
         config.write_text(updated, encoding="utf-8", newline="\n")
-        print(json.dumps({"config": str(config), "rows": len(rows), "synced_at": now}, ensure_ascii=False))
+        print(json.dumps({"config": str(config), "updated": True, "rows": len(rows), "craft_codes": sorted({str(r["craft_code"]) for r in rows}), "synced_at": now}, ensure_ascii=False))
     return 0
 
 
