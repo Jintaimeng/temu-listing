@@ -1,13 +1,42 @@
 ---
 name: temu-listing-automation
-description: Automate preparing a new product in agentseller.temu.com from listing.yaml, including visible form fields, options, and local image uploads; stop for human review before final submission.
+description: Use scripts to orchestrate preparing a new product in agentseller.temu.com from listing.yaml; the skill defines stages, checks and human gates, while scripts and a browser adapter perform concrete operations; stop for human review before final submission.
 metadata:
-  short-description: 按 listing.yaml 准备 Temu 商品并上传本地图片
+  short-description: 脚本驱动 Temu 商品草稿上架
 ---
 
 # Temu 商品上架自动化
 
-目标是准备并验收商品草稿，不是在未经确认的情况下最终发布。页面文案、控件和步骤可能变化，始终以当前可见页面为准；`listing.yaml` 只提供默认值、字段映射和同义词。
+目标是准备并验收商品草稿，不是在未经确认的情况下最终发布。SKILL 只负责阶段编排、停止条件和人工确认；字段查找、值计算、点击、输入、上传、逐行核验和重载验收由脚本生成的动作和浏览器适配器完成。页面文案、控件和步骤可能变化，始终以当前可见页面为准；`listing.yaml` 只提供默认值、字段映射和同义词。
+
+## 执行模式：SKILL 编排，脚本操作
+
+不要把本文件下面的浏览器步骤当作需要模型逐项执行的点击清单。启动流程时先生成校验计划和动作队列：
+
+```text
+scripts/validate_listing.py <配置路径> --pack-dir <图片包目录> --json --plan-out <plan.json>
+scripts/listing_workflow.py <配置路径> --plan <plan.json> --actions-out <actions.json>
+scripts/listing_workflow.py <配置路径> --plan <plan.json> --state <state.json> --executor "<浏览器适配器命令>"
+```
+
+`validate_listing.py` 是唯一的输入校验和执行计划生成器。`listing_workflow.py` 读取该计划，解析默认值，计算报价、申报价、建议零售价、颜色编码、SKU、图片绑定和规格数量，并输出按依赖排序的 JSON 动作。动作执行器从 stdin 接收一条 action，返回 `{"ok":true,"evidence":{...}}`；非零退出、无效 JSON、`ok:false` 或缺少验收证据都必须停止。`--state` 支持断点续跑，已完成动作不会重复执行。
+
+完整图片包任务使用总调度脚本。它只校验一次图片包，并按照校验计划中已经展开的“品牌/机型分组 × 当前颜色 × 工艺”逐个执行全部商品流程；登录、页面映射缓存和素材缓存保持图片包级复用，所有流程共用一个状态文件并在最终人工审核点停止：
+
+```text
+scripts/listing_batch.py <配置路径> --pack-dir <图片包目录> --plan-out <plan.json> --actions-out <actions.json>
+scripts/listing_batch.py <配置路径> --pack-dir <图片包目录> --state <state.json> --executor "<浏览器适配器命令>"
+```
+
+`listing_workflow.py --task-index N` 只用于单个商品流程的小范围测试；总调度不得逐次手工拼接 `--task-index`，而应由 `listing_batch.py` 一次冻结并执行完整队列，避免任务遗漏、状态文件冲突和重复创建草稿。
+
+执行阶段遇到输入超时、连接重置、CDP/WebSocket 断开、浏览器目标页关闭等连接类错误时，由脚本进行有限次幂等恢复：默认单动作最多尝试 2 次，单次执行器超时 90 秒，重试采用递增退避，可通过 `--max-attempts`、`--executor-timeout` 和 `--retry-backoff` 调整。动作若带有 `timeout_recovery.probe`，重试前必须向同一执行器发送 `type=probe_action_state` 的探测动作；只有探测证据明确显示目标状态尚未完成时才允许重试，已完成则直接记录为恢复完成，结果不明确或探测失败必须停止。每次尝试、恢复、失败和不确定状态都会写入 `--state`，并记录动作耗时，避免连接断开后重复创建草稿。
+
+SKU 无法批量填写的行字段默认按每 20 行一个分块，仅在需要逐行处理的字段上分块；可通过 `--sku-chunk-size` 调整。表头价格、币种和 SKU 分类仍保持一次批量填写。
+
+导航类动作的点击超时按“不确定状态”处理，不得立即重复点击。执行器必须先重新读取当前页和 `user.openTabs()`：若出现带 `productDraftId` 的商品发布页，或目标表单已出现（例如“商品轮播图”），则在探测 evidence 中返回 `already_applied=true` 或 `target_present=true`，脚本会将动作标记为成功并继续；只有确认仍停留在原页面且没有目标标签时，才允许一次重试。重复点击可能创建多个草稿。
+
+脚本动作类型包括 `validate_plan`、`ensure_authenticated`、`open_new_product`、`fill_basic_fields`、`fill_sku_table`、`bind_detail_images`、`confirm_compliance_statement`、`save_and_reload_verify` 和 `await_submission_confirmation`；连接类失败恢复时还会发送内部 `probe_action_state` 探测动作。下面各节只定义阶段语义、业务约束和停止条件，具体 selector、等待、批量填写、逐行核验和上传细节不得由模型重新实现。执行器不得调用接口、注入脚本或写隐藏字段绕过页面验证。
 
 ## 一、输入、校验与不可变数据
 
@@ -74,7 +103,9 @@ scripts/validate_listing.py <配置路径> --json
 3. 建立素材缓存，作用域为“当前店铺/Chrome 配置 + `material_cache_key`”：`unknown` 表示未检查，`ready` 表示所有素材可搜索、可选且顺序核验通过，`miss` 表示只补传精确缺失文件后重新核验。缓存命中只省略上传动作，不能省略当前草稿的搜索、选择和预览确认；不同店铺或 Chrome 配置不得共享 `ready`。
 4. 为每个任务记录六段耗时：导航/类目、轮播素材、基础字段、SKU、详情、保存与重载验收；同时记录素材 cache hit/miss。
 
-## 三、浏览器流程
+## 三、浏览器流程语义（由脚本动作执行）
+
+本节是动作执行器的业务契约和验收标准，不是给模型的手工操作步骤。SKILL 只按动作队列调用执行器并检查其返回的 evidence；没有执行器时只能生成队列，不能声称已完成上架。
 
 ### 1. 登录与进入表单
 
@@ -87,7 +118,7 @@ scripts/validate_listing.py <配置路径> --json
 - 优先按 `form_labels` 的 label、placeholder、可访问名称和 role 精确匹配，其他文案仅作回退。
 - 不依赖脆弱 CSS 类名、固定坐标或输入框视觉顺序。
 - 类目未唯一匹配、字段缺失或页面出现未知必填项时，记录实际文案并暂停。
-- “下一步”只用于完成当前页面校验，不得绕过错误。
+- “下一步”只用于完成当前页面校验，不得绕过错误。点击若报告 CDP/输入超时，先探测新标签页、`productDraftId` 和目标表单；目标已出现时不要重试，避免重复创建草稿。
 
 ### 3. 基础信息与规格
 
@@ -110,7 +141,7 @@ scripts/validate_listing.py <配置路径> --json
 SKU 表只产生“全部手机型号 × 当前颜色”的组合行。
 
 1. SKU 分类在表头选择“单品”，点击 **SKU 信息区域** 的“批量填写”，再逐行确认已显示“单品”；不能只选表头，也不能误点敏感属性区域的同名按钮。
-2. 申报价格、SKU 分类、建议零售价均在表头设置后分别点击对应的“批量填写”，禁止逐行重复填写。
+2. 申报价格、SKU 分类、建议零售价均在表头设置后分别点击对应的“批量填写”，禁止逐行重复填写。建议零售价必须同时完成两项：填写价格数值，并在“建议零售价单位”下拉框选择 `listing.yaml` 中 `pricing.suggested_retail_price_currency` 配置的单位（当前配置为 `USD`）；不能只填数值而遗漏单位。批量填写后要逐行核验价格和单位均已落到 SKU 行。
 3. 按当前任务的材质、工艺、单色、手机型号和图片编号生成每行 SKU 货号：
 
    ```text

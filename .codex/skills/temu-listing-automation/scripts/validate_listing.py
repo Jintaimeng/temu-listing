@@ -402,6 +402,7 @@ def ordered_brand_payloads(
     explicit_titles: dict[str, str] | None = None,
     explicit_colors: dict[str, list[str]] | None = None,
     explicit_crafts: list[str] | None = None,
+    explicit_craft_names: dict[str, str] | None = None,
     explicit_materials: dict[str, tuple[str, str]] | None = None,
     dynamic_title: bool = False,
 ) -> list[dict[str, object]]:
@@ -419,6 +420,14 @@ def ordered_brand_payloads(
         colors = (explicit_colors or {}).get(key, [])
         code, material = (explicit_materials or {}).get(key, ("", ""))
         for craft in crafts:
+            craft_name = next(
+                (
+                    str(name).strip()
+                    for code, name in (explicit_craft_names or {}).items()
+                    if str(code).casefold() == craft.casefold() and str(name).strip()
+                ),
+                craft,
+            )
             # Each brand/color pair is a separate product task.  Keeping one
             # color in the payload is important: downstream page filling can
             # select a single color and Temu will then materialize only the
@@ -428,7 +437,8 @@ def ordered_brand_payloads(
                 title = (explicit_titles or {}).get(key, "")
                 if not title and not dynamic_title:
                     title = title_template.replace("{brand}", brand).replace("{品牌}", brand)
-                    title = title.replace("{craft_codes}", craft).replace("{craft_code}", craft)
+                    title = title.replace("{craft_codes}", craft_name).replace("{craft_code}", craft_name)
+                    title = title.replace("{工艺}", craft_name)
                     title = title.replace("{desc}", title_desc).replace("{描述}", title_desc)
                 payload: dict[str, object] = {
                     "brand": brand,
@@ -451,6 +461,7 @@ def ordered_brand_payloads(
                 }
                 if craft:
                     payload["craft_code"] = craft
+                    payload["craft_name"] = craft_name
                     payload["craft_codes"] = [craft]
                 if dynamic_title:
                     payload["title_template"] = title_template
@@ -487,6 +498,7 @@ def execution_plan(
     title_desc: str,
     material_code: str = "",
     material: str = "",
+    craft_code_names: dict[str, str] | None = None,
     main_material: str = "PC",
     sku_code_rule: dict[str, str] | None = None,
     pricing: dict[str, object] | None = None,
@@ -505,6 +517,7 @@ def execution_plan(
         "title_desc": title_desc,
         "material_code": material_code,
         "material": material,
+        "craft_code_names": craft_code_names or {},
         "main_material": main_material,
         "sku_code_rule": sku_code_rule or {},
         "pricing": pricing or {},
@@ -526,13 +539,18 @@ def main() -> int:
         default=None,
         help="write the validated execution plan JSON to this path",
     )
+    parser.add_argument(
+        "--pack-dir",
+        default=None,
+        help="override defaults.images.pack_dir for this run without modifying listing.yaml",
+    )
     ns = parser.parse_args()
     config = pathlib.Path(ns.config).resolve()
     lines = config.read_text(encoding="utf-8").splitlines()
     root = pathlib.Path(ns.project_root).resolve() if ns.project_root else config.parent.parent
     images = section(lines, "images", 0)
     carousel = section(images, "carousel", 2)
-    pack_dir = value(images, "pack_dir")
+    pack_dir = ns.pack_dir if ns.pack_dir is not None else value(images, "pack_dir")
     if pack_dir and pack_dir.casefold() in {"null", "none", "~"}:
         pack_dir = None
     task_injected = (value(images, "task_injected") or "").casefold() in {"true", "yes", "1"}
@@ -634,7 +652,20 @@ def main() -> int:
     if pack_dir:
         if not pack or not pack.is_dir():
             errors.append(f"图片包目录不存在: {pack}")
-        elif not names:
+        elif not names and not any(path.is_file() and path.suffix.lower() in EXTS for path in pack.iterdir()):
+            # A user may provide a product-image root containing one package
+            # directory (for example ``手机壳一/990f...``).  Descend only when
+            # the choice is unambiguous; never guess between multiple packs.
+            children = [
+                child for child in pack.iterdir()
+                if child.is_dir() and any(path.is_file() and path.suffix.lower() in EXTS for path in child.iterdir())
+            ]
+            if len(children) == 1:
+                pack = children[0].resolve()
+                pack_dir = str(pack)
+            elif len(children) > 1:
+                errors.append(f"图片包目录包含多个子包，请明确指定具体目录: {pack}")
+        if pack and pack.is_dir() and not names:
             names = sorted(p.name for p in pack.iterdir() if p.is_file() and p.suffix.lower() in EXTS)[:count]
     elif names:
         errors.append("defaults.images.pack_dir 缺失，但 carousel.files 已配置")
@@ -723,12 +754,14 @@ def main() -> int:
             explicit_titles=configured_titles,
             explicit_colors=configured_brand_colors,
             explicit_crafts=configured_crafts,
+            explicit_craft_names=configured_craft_names,
             dynamic_title=dynamic_title,
         ),
         title_template=title_template,
         title_desc=title_desc,
         material_code=first_material_code,
         material=(configured_codes.get(first_material_code) if first_material_code else ""),
+        craft_code_names=configured_craft_names,
         main_material=main_material,
         pricing=pricing,
         sku_code_rule={

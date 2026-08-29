@@ -34,19 +34,6 @@
     "title_desc": "",
     "material_code": "005",
     "material": "康宁贴皮",
-    "craft_code_names": {
-      "CH": "普通彩绘类、菲林工艺",
-      "CM": "彩绘侧面打印",
-      "DC": "DIY彩绘打印",
-      "DG": "DIY光油打印",
-      "DS": "DIY素材不打印",
-      "GY": "光油彩绘类",
-      "JM": "镜面：",
-      "SC": "纯素材类不打印",
-      "SW": "素材腕带不打印：",
-      "WD": "彩绘腕带打印：",
-      "ZH": "支架彩绘打印："
-    },
     "main_material": "PC",
     "sku_code_rule": {
       "enabled": "true",
@@ -652,7 +639,6 @@
           "sku_combination_count": 60
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -854,7 +840,6 @@
           "sku_combination_count": 60
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1056,7 +1041,6 @@
           "sku_combination_count": 60
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1165,7 +1149,6 @@
           "sku_combination_count": 29
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1274,7 +1257,6 @@
           "sku_combination_count": 29
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1383,7 +1365,6 @@
           "sku_combination_count": 29
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1492,7 +1473,6 @@
           "sku_combination_count": 29
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1601,7 +1581,6 @@
           "sku_combination_count": 29
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1692,7 +1671,6 @@
           "sku_combination_count": 23
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -1876,7 +1854,6 @@
           "sku_combination_count": 54
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -2045,7 +2022,6 @@
           "sku_combination_count": 49
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -2277,7 +2253,6 @@
           "sku_combination_count": 70
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -2437,7 +2412,6 @@
           "sku_combination_count": 46
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -2615,7 +2589,6 @@
           "sku_combination_count": 52
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],
@@ -2718,7 +2691,6 @@
           "sku_combination_count": 27
         },
         "craft_code": "GY",
-        "craft_name": "光油彩绘类",
         "craft_codes": [
           "GY"
         ],

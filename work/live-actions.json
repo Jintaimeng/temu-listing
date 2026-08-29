@@ -1,0 +1,2367 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-29T04:58:47.810669+00:00",
+  "config": "D:\\project\\temu-listing-ops\\config\\listing.yaml",
+  "plan_material_cache_key": "fafec137e96a6bc555b722b8295cca88c79374eb1a32a08ac5954f27305e0083",
+  "actions": [
+    {
+      "id": "preflight",
+      "phase": "preflight",
+      "type": "validate_plan",
+      "requires": [],
+      "expects": [
+        "plan.ok=true",
+        "all input files readable"
+      ],
+      "payload": {
+        "config": "D:\\project\\temu-listing-ops\\config\\listing.yaml",
+        "material_cache_key": "fafec137e96a6bc555b722b8295cca88c79374eb1a32a08ac5954f27305e0083"
+      }
+    },
+    {
+      "id": "login",
+      "phase": "access",
+      "type": "ensure_authenticated",
+      "requires": [
+        "preflight"
+      ],
+      "expects": [
+        "authenticated",
+        "no CAPTCHA or risk challenge"
+      ],
+      "payload": {
+        "url": "https://agentseller.temu.com/"
+      }
+    },
+    {
+      "id": "task-001-draft",
+      "phase": "draft",
+      "type": "open_new_product",
+      "requires": [
+        "login"
+      ],
+      "expects": [
+        "new product form visible"
+      ],
+      "payload": {
+        "brand": "Galaxy"
+      },
+      "timeout_recovery": {
+        "probe": [
+          "user.openTabs",
+          "productDraftId",
+          "商品轮播图"
+        ],
+        "retry": "only_if_no_target_found"
+      }
+    },
+    {
+      "id": "task-001-basic",
+      "phase": "basic",
+      "type": "fill_basic_fields",
+      "requires": [
+        "task-001-draft"
+      ],
+      "expects": [
+        "all configured basic fields accepted"
+      ],
+      "payload": {
+        "brand": "Galaxy",
+        "title": "适用于Galaxy手机壳康宁贴皮GY透明四角防摔保护壳",
+        "craft_code": "GY",
+        "color": "银色",
+        "phone_models": [
+          "Galaxy A02",
+          "Galaxy A02s",
+          "Galaxy A03",
+          "Galaxy A03s",
+          "Galaxy A03 Core",
+          "Galaxy A04",
+          "Galaxy A04e",
+          "A06 4G",
+          "Galaxy A06 5G",
+          "Galaxy A05",
+          "Galaxy A05s",
+          "Galaxy A07",
+          "Galaxy A13",
+          "Galaxy A13 5G",
+          "Galaxy A14 5G",
+          "Galaxy A15",
+          "Galaxy A16 5G",
+          "Galaxy A17",
+          "Galaxy A22 5G",
+          "Galaxy A23",
+          "Samsung Galaxy A24 4G",
+          "Samsung Galaxy A25 5G",
+          "Galaxy A26 5G",
+          "Galaxy A31",
+          "Galaxy A32",
+          "Galaxy A33 5G",
+          "Samsung Galaxy A34",
+          "Galaxy A35 5G",
+          "Galaxy A36",
+          "Galaxy A52",
+          "Galaxy A53 5G",
+          "Galaxy A54 5G",
+          "Galaxy A55 5G",
+          "Galaxy A56",
+          "Galaxy A73 5G",
+          "Galaxy M23",
+          "Galaxy S21 5G",
+          "Galaxy S21 FE 5G",
+          "Galaxy S21+ 5G",
+          "Galaxy S21 Ultra 5G",
+          "Galaxy S22 5G",
+          "Galaxy S22+ 5G",
+          "Galaxy S22 Ultra 5G",
+          "Samsung Galaxy S23",
+          "Samsung Galaxy S23 FE",
+          "Galaxy S23+",
+          "Samsung Galaxy S23 Ultra",
+          "Galaxy S24",
+          "Galaxy S24 FE",
+          "Galaxy S24+",
+          "Galaxy S24 Ultra",
+          "Galaxy S25",
+          "Galaxy S25+ Global",
+          "Galaxy S25 Ultra",
+          "Galaxy A37",
+          "Galaxy A57 5G",
+          "Galaxy S26",
+          "Galaxy S26+",
+          "Galaxy S26 Ultra",
+          "Galaxy A06"
+        ],
+        "basic": {
+          "material_language": [
+            "英语"
+          ],
+          "origin": {
+            "country": "中国大陆",
+            "region": "广东"
+          },
+          "main_material": "PC",
+          "packaging": {
+            "type": "软包装+硬物",
+            "shape": "长方体"
+          },
+          "sensitive": {
+            "default": "否",
+            "longest_cm": "15",
+            "middle_cm": "8",
+            "shortest_cm": "1",
+            "weight_g": "17"
+          },
+          "package_outer": "D:\\project\\temu-listing-ops\\data\\waibaozhuang-goods.JPEG"
+        },
+        "images": {
+          "carousel": [
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\2.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\3.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\4.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\5.png"
+          ],
+          "detail": [
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\2.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\3.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\4.png",
+            "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\5.png"
+          ],
+          "detail_enabled": true
+        },
+        "sku_rows": [
+          {
+            "phone_model": "Galaxy A02",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A02-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A02s",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A02s-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A03",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A03-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A03s",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A03s-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A03 Core",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A03 Core-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A04",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A04-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A04e",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A04e-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "A06 4G",
+            "color": "银色",
+            "sku_code": "005GY-A06 4G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A06 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A06 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A05",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A05-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A05s",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A05s-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A07",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A07-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A13",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A13-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A13 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A13 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A14 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A14 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A15",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A15-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A16 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A16 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A17",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A17-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A22 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A22 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A23",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A23-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy A24 4G",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy A24 4G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy A25 5G",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy A25 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A26 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A26 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A31",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A31-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A32",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A32-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A33 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A33 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy A34",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy A34-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A35 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A35 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A36",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A36-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A52",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A52-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A53 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A53 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A54 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A54 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A55 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A55 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A56",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A56-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A73 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A73 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy M23",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy M23-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21 FE 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21 FE 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21+ 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21+ 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21 Ultra 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21 Ultra 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S22 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S22 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S22+ 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S22+ 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S22 Ultra 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S22 Ultra 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy S23",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy S23-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy S23 FE",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy S23 FE-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S23+",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S23+-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy S23 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy S23 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24 FE",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24 FE-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24+",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24+-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S25",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S25-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S25+ Global",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S25+ Global-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S25 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S25 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A37",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A37-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A57 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A57 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S26",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S26-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S26+",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S26+-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S26 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S26 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A06",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A06-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          }
+        ],
+        "spec_counts": {
+          "phone_model_count": 60,
+          "color_count": 1,
+          "spec_value_count": 61,
+          "sku_combination_count": 60
+        }
+      }
+    },
+    {
+      "id": "task-001-sku",
+      "phase": "sku",
+      "type": "fill_sku_table",
+      "requires": [
+        "task-001-basic"
+      ],
+      "expects": [
+        "60 SKU rows with prices, currencies and codes"
+      ],
+      "payload": {
+        "rows": [
+          {
+            "phone_model": "Galaxy A02",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A02-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A02s",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A02s-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A03",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A03-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A03s",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A03s-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A03 Core",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A03 Core-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A04",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A04-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A04e",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A04e-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "A06 4G",
+            "color": "银色",
+            "sku_code": "005GY-A06 4G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A06 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A06 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A05",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A05-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A05s",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A05s-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A07",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A07-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A13",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A13-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A13 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A13 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A14 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A14 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A15",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A15-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A16 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A16 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A17",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A17-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A22 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A22 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A23",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A23-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy A24 4G",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy A24 4G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy A25 5G",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy A25 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A26 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A26 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A31",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A31-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A32",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A32-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A33 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A33 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy A34",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy A34-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A35 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A35 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A36",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A36-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A52",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A52-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A53 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A53 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A54 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A54 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A55 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A55 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A56",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A56-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A73 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A73 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy M23",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy M23-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21 FE 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21 FE 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21+ 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21+ 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S21 Ultra 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S21 Ultra 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S22 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S22 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S22+ 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S22+ 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S22 Ultra 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S22 Ultra 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy S23",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy S23-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy S23 FE",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy S23 FE-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S23+",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S23+-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Samsung Galaxy S23 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Samsung Galaxy S23 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24 FE",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24 FE-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24+",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24+-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S24 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S24 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S25",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S25-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S25+ Global",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S25+ Global-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S25 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S25 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A37",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A37-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A57 5G",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A57 5G-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S26",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S26-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S26+",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S26+-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy S26 Ultra",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy S26 Ultra-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          },
+          {
+            "phone_model": "Galaxy A06",
+            "color": "银色",
+            "sku_code": "005GY-Galaxy A06-YS-yzy2026082601005",
+            "declaration_price": 5.1,
+            "declaration_price_currency": "store_currency",
+            "suggested_retail_price": 40.8,
+            "suggested_retail_price_currency": "USD",
+            "sku_category": "单品",
+            "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+          }
+        ],
+        "fill_total_contents": false
+      }
+    },
+    {
+      "id": "task-001-detail",
+      "phase": "detail",
+      "type": "bind_detail_images",
+      "requires": [
+        "task-001-sku"
+      ],
+      "expects": [
+        "detail preview order matches carousel"
+      ],
+      "payload": {
+        "carousel": [
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\2.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\3.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\4.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\5.png"
+        ],
+        "detail": [
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\2.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\3.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\4.png",
+          "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\5.png"
+        ],
+        "detail_enabled": true
+      }
+    },
+    {
+      "id": "task-001-compliance",
+      "phase": "compliance",
+      "type": "confirm_compliance_statement",
+      "requires": [
+        "task-001-detail"
+      ],
+      "expects": [
+        "real checkbox checked=true"
+      ],
+      "payload": {
+        "label_key": "compliance_statement"
+      }
+    },
+    {
+      "id": "task-001-save",
+      "phase": "save",
+      "type": "save_and_reload_verify",
+      "requires": [
+        "task-001-compliance"
+      ],
+      "expects": [
+        "save success",
+        "reload verification passed"
+      ],
+      "payload": {
+        "task": {
+          "brand": "Galaxy",
+          "title": "适用于Galaxy手机壳康宁贴皮GY透明四角防摔保护壳",
+          "craft_code": "GY",
+          "color": "银色",
+          "phone_models": [
+            "Galaxy A02",
+            "Galaxy A02s",
+            "Galaxy A03",
+            "Galaxy A03s",
+            "Galaxy A03 Core",
+            "Galaxy A04",
+            "Galaxy A04e",
+            "A06 4G",
+            "Galaxy A06 5G",
+            "Galaxy A05",
+            "Galaxy A05s",
+            "Galaxy A07",
+            "Galaxy A13",
+            "Galaxy A13 5G",
+            "Galaxy A14 5G",
+            "Galaxy A15",
+            "Galaxy A16 5G",
+            "Galaxy A17",
+            "Galaxy A22 5G",
+            "Galaxy A23",
+            "Samsung Galaxy A24 4G",
+            "Samsung Galaxy A25 5G",
+            "Galaxy A26 5G",
+            "Galaxy A31",
+            "Galaxy A32",
+            "Galaxy A33 5G",
+            "Samsung Galaxy A34",
+            "Galaxy A35 5G",
+            "Galaxy A36",
+            "Galaxy A52",
+            "Galaxy A53 5G",
+            "Galaxy A54 5G",
+            "Galaxy A55 5G",
+            "Galaxy A56",
+            "Galaxy A73 5G",
+            "Galaxy M23",
+            "Galaxy S21 5G",
+            "Galaxy S21 FE 5G",
+            "Galaxy S21+ 5G",
+            "Galaxy S21 Ultra 5G",
+            "Galaxy S22 5G",
+            "Galaxy S22+ 5G",
+            "Galaxy S22 Ultra 5G",
+            "Samsung Galaxy S23",
+            "Samsung Galaxy S23 FE",
+            "Galaxy S23+",
+            "Samsung Galaxy S23 Ultra",
+            "Galaxy S24",
+            "Galaxy S24 FE",
+            "Galaxy S24+",
+            "Galaxy S24 Ultra",
+            "Galaxy S25",
+            "Galaxy S25+ Global",
+            "Galaxy S25 Ultra",
+            "Galaxy A37",
+            "Galaxy A57 5G",
+            "Galaxy S26",
+            "Galaxy S26+",
+            "Galaxy S26 Ultra",
+            "Galaxy A06"
+          ],
+          "basic": {
+            "material_language": [
+              "英语"
+            ],
+            "origin": {
+              "country": "中国大陆",
+              "region": "广东"
+            },
+            "main_material": "PC",
+            "packaging": {
+              "type": "软包装+硬物",
+              "shape": "长方体"
+            },
+            "sensitive": {
+              "default": "否",
+              "longest_cm": "15",
+              "middle_cm": "8",
+              "shortest_cm": "1",
+              "weight_g": "17"
+            },
+            "package_outer": "D:\\project\\temu-listing-ops\\data\\waibaozhuang-goods.JPEG"
+          },
+          "images": {
+            "carousel": [
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\2.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\3.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\4.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\5.png"
+            ],
+            "detail": [
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\2.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\3.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\4.png",
+              "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\5.png"
+            ],
+            "detail_enabled": true
+          },
+          "sku_rows": [
+            {
+              "phone_model": "Galaxy A02",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A02-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A02s",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A02s-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A03",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A03-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A03s",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A03s-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A03 Core",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A03 Core-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A04",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A04-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A04e",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A04e-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "A06 4G",
+              "color": "银色",
+              "sku_code": "005GY-A06 4G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A06 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A06 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A05",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A05-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A05s",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A05s-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A07",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A07-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A13",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A13-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A13 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A13 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A14 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A14 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A15",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A15-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A16 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A16 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A17",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A17-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A22 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A22 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A23",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A23-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Samsung Galaxy A24 4G",
+              "color": "银色",
+              "sku_code": "005GY-Samsung Galaxy A24 4G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Samsung Galaxy A25 5G",
+              "color": "银色",
+              "sku_code": "005GY-Samsung Galaxy A25 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A26 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A26 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A31",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A31-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A32",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A32-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A33 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A33 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Samsung Galaxy A34",
+              "color": "银色",
+              "sku_code": "005GY-Samsung Galaxy A34-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A35 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A35 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A36",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A36-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A52",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A52-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A53 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A53 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A54 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A54 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A55 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A55 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A56",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A56-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A73 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A73 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy M23",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy M23-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S21 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S21 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S21 FE 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S21 FE 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S21+ 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S21+ 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S21 Ultra 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S21 Ultra 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S22 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S22 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S22+ 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S22+ 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S22 Ultra 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S22 Ultra 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Samsung Galaxy S23",
+              "color": "银色",
+              "sku_code": "005GY-Samsung Galaxy S23-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Samsung Galaxy S23 FE",
+              "color": "银色",
+              "sku_code": "005GY-Samsung Galaxy S23 FE-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S23+",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S23+-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Samsung Galaxy S23 Ultra",
+              "color": "银色",
+              "sku_code": "005GY-Samsung Galaxy S23 Ultra-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S24",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S24-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S24 FE",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S24 FE-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S24+",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S24+-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S24 Ultra",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S24 Ultra-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S25",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S25-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S25+ Global",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S25+ Global-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S25 Ultra",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S25 Ultra-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A37",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A37-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A57 5G",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A57 5G-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S26",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S26-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S26+",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S26+-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy S26 Ultra",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy S26 Ultra-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            },
+            {
+              "phone_model": "Galaxy A06",
+              "color": "银色",
+              "sku_code": "005GY-Galaxy A06-YS-yzy2026082601005",
+              "declaration_price": 5.1,
+              "declaration_price_currency": "store_currency",
+              "suggested_retail_price": 40.8,
+              "suggested_retail_price_currency": "USD",
+              "sku_category": "单品",
+              "preview_image": "D:\\project\\temu-listing-ops\\data\\image-packs\\手机壳一\\990f6b43c33d\\1_yzy2026082601005.png"
+            }
+          ],
+          "spec_counts": {
+            "phone_model_count": 60,
+            "color_count": 1,
+            "spec_value_count": 61,
+            "sku_combination_count": 60
+          }
+        }
+      }
+    },
+    {
+      "id": "human-review",
+      "phase": "review",
+      "type": "await_submission_confirmation",
+      "requires": [
+        "task-001-save"
+      ],
+      "expects": [
+        "user explicitly confirms final submission"
+      ],
+      "payload": {
+        "submission_allowed": false
+      },
+      "human_gate": true
+    }
+  ]
+}

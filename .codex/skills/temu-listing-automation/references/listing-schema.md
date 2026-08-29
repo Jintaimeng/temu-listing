@@ -1,5 +1,19 @@
 # listing.yaml 解析约定
 
+## 脚本驱动边界
+
+`SKILL.md` 负责流程阶段、依赖关系、停止条件和人工确认；`scripts/validate_listing.py` 与 `scripts/listing_workflow.py` 负责解析配置、生成确定性数据和执行动作。任何浏览器适配器都只消费动作 JSON，不应自行读取旧配置或通过页面视觉顺序推断值。推荐流程如下：
+
+```text
+validate_listing.py <config> --json --plan-out <plan.json>
+listing_workflow.py <config> --plan <plan.json> --actions-out <actions.json>
+listing_workflow.py <config> --plan <plan.json> --state <state.json> --executor "<adapter>"
+```
+
+动作执行器须为每个动作返回 `{"ok": true, "evidence": {...}}`；失败时保留状态文件并停止。连接类失败由脚本按默认最多 2 次、90 秒执行超时和递增退避重试，并通过 `probe_action_state` 探测动作是否已经生效；探测结果不明确时不得再次输入。动作状态还会记录尝试次数和耗时，便于定位页面停顿。`await_submission_confirmation` 永远是人工门，脚本不得自动提交。
+
+导航动作的输入/CDP 超时不是立即失败：适配器必须先重新读取当前页和 `user.openTabs()`，检查是否已经出现带 `productDraftId` 的商品发布页或目标表单（如“商品轮播图”）。目标已出现时返回 `already_applied=true` 或 `target_present=true`，脚本会记录恢复成功；只有确认没有目标标签时才允许按动作策略重试，禁止连续点击造成重复草稿。
+
 技能读取的配置分为三层：
 
 1. `form_labels`：页面标签的同义词。优先第一个值；页面变化时以当前 DOM 可见文案为准，并报告需要更新的键。
