@@ -48,6 +48,7 @@ defaults:
   attributes:
     # Temu“主要材质”固定选 PC；不要从 material_codes 回填。
     main_material: PC
+    package_outer: D:/project/temu-listing/data/waibaozhuang-goods.JPEG
 ```
 
 相对路径以项目根目录解析；`package_outer` 也允许使用规范化绝对路径。Windows 路径大小写通常不敏感，但技能仍应按实际文件存在性校验，并在报告中使用规范化绝对路径。不要上传同一文件两次。图片包的五个文件名无需写入 `listing.yaml`：当 `files` 为空时，按首图 `1_` 和后续纯数字 `2`～`5` 自动发现和排序。`detail.source: carousel` 表示详情装修组件复用已解析的轮播素材清单。
@@ -81,6 +82,8 @@ defaults:
 只有在当前店铺/Chrome 配置、指纹、文件名搜索结果、已选数量和当前草稿预览均核验通过时，才允许写入 `status: ready`。缓存记录不能代替后续品牌草稿的素材选择、确认和预览验收。
 
 SKU 分类为“单品”时，可用 `defaults.sku.fill_total_contents: false` 明确跳过页面中的“共计内含”字段。选择“单品”后仍需点击 SKU 区域的“批量填写”，将分类写入实际组合行。
+
+敏感属性与体积重量共用同一张表格批量动作：先在表头填写 `sensitive`、`longest_cm`、`middle_cm`、`shortest_cm`、`weight_g` 中配置的字段，再只点击一次该区域的 `sensitive_batch_fill`（默认“批量填写”）。不得拆成敏感属性和体积重量两次批量填写，也不得只修改组合行。
 
 标题模板保留 `{brand}`，每个品牌创建草稿时替换该占位符。品牌和型号配置示例：
 

@@ -7,6 +7,8 @@ import hashlib
 import json
 import pathlib
 import re
+import runpy
+import sys
 
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 PACK_IMAGE_RE = re.compile(r"^([1-5])(?:_(.*))?$")
@@ -526,8 +528,16 @@ def execution_plan(
 
 
 def main() -> int:
+    # The executable planner lives in the unified project.  Keep this skill
+    # entry point as a compatibility shim so it cannot drift back to the old
+    # per-phone-model price schema.
+    canonical = pathlib.Path(__file__).resolve().parents[4] / "tools" / "temu_listing_automation" / "validate_listing.py"
+    if canonical.is_file() and canonical != pathlib.Path(__file__).resolve():
+        sys.argv[0] = str(canonical)
+        runpy.run_path(str(canonical), run_name="__main__")
+        return 0
     parser = argparse.ArgumentParser()
-    parser.add_argument("config", nargs="?", default=r"D:\\project\\temu-listing-ops\\config\\listing.yaml")
+    parser.add_argument("config", nargs="?", default=r"D:\\project\\temu-listing\\config\\listing.yaml")
     parser.add_argument("--project-root", default=None)
     parser.add_argument(
         "--json",
@@ -802,6 +812,17 @@ def main() -> int:
     print(f"material_cache_key={plan['material_cache_key']}")
     print(f"brands={len(plan['brands'])}")
     return 0
+
+
+# Imports of the skill script (rather than command-line execution) should see
+# the same parser helpers as the canonical project implementation.
+if __name__ != "__main__":
+    _canonical_path = pathlib.Path(__file__).resolve().parents[4] / "tools" / "temu_listing_automation" / "validate_listing.py"
+    if _canonical_path.is_file() and _canonical_path != pathlib.Path(__file__).resolve():
+        _canonical_exports = runpy.run_path(str(_canonical_path), run_name="temu_listing_validate_canonical")
+        for _name, _value in _canonical_exports.items():
+            if not _name.startswith("__"):
+                globals()[_name] = _value
 
 
 if __name__ == "__main__":
